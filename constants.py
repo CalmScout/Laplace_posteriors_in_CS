@@ -27,7 +27,7 @@ MAX_MU_INIT = 30.0
 MU_GRID_DENSE = 10
 # tolerance threshold for system solution - if system solution exceed threshold -
 # recompute with other initial approximation
-TOL_THRESHOLD = 1e-8
+TOL_THRESHOLD = 1e-1
 # computer zero for solver_scipy module - to separate different cases of equations
 COMPUTER_ZERO = 1e-13
 # value of delta we replace negative delta_opt

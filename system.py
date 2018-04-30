@@ -1,5 +1,6 @@
 """
 Module contains system of equations and objective function, generated from it.
+Notation: mu == x[0], delta == x[1], 'x' is numpy.ndarray.
 """
 import numpy as np
 
@@ -7,7 +8,6 @@ import numpy as np
 def f(x, data, eq_idx):
     """
     System of equations.
-    :return:
     """
     res = np.zeros(len(x))
     a, b, c = data.systems_params[eq_idx]
@@ -41,7 +41,6 @@ def g_derivative(x, data, eq_idx):
 def _g_1(x, data, eq_idx):
     """
     Objective function for constraints mu > 0, delta > 0
-    Notation: mu == x[0], delta == x[1]
     """
     a, b, c = data.systems_params[eq_idx]
     return 0.5 * ((a * x[0] + b + c * (1 - np.exp(-x[0] / x[1]))) ** 2 +
@@ -51,7 +50,6 @@ def _g_1(x, data, eq_idx):
 def _g_1_derivative(x, data, eq_idx):
     """
     Derivative of g_1. Returns [d g_1 / d mu, d g_1 / d delta]
-    Notation: mu == x[0], delta == x[1]
     """
     a, b, c = data.systems_params[eq_idx]
     res = np.zeros(len(x))
@@ -70,7 +68,6 @@ def _g_1_derivative(x, data, eq_idx):
 def _g_2(x, data, eq_idx):
     """
     Objective function for constraints mu == 0, delta > 0
-    Notation: mu == x[0], delta == x[1]
     """
     a, b, c = data.systems_params[eq_idx]
     return 0.5 * (b ** 2 + (-1 / x[1] + 2 * a * x[1] + c) ** 2)
@@ -79,7 +76,6 @@ def _g_2(x, data, eq_idx):
 def _g_2_derivative(x, data, eq_idx):
     """
     Derivative of g_2. Returns [d g_2 / d mu, d g_2 / d delta]
-    Notation: mu == x[0], delta == x[1]
     """
     res = np.zeros(len(x))
     a, b, c = data.systems_params[eq_idx]
@@ -91,7 +87,6 @@ def _g_2_derivative(x, data, eq_idx):
 def _g_3(x, data, eq_idx):
     """
     Objective function for constraints mu < 0, delta > 0
-    Notation: mu == x[0], delta == x[1]
     """
     a, b, c = data.systems_params[eq_idx]
     return 0.5 * ((a * x[0] + b - c * (1 - np.exp(x[0] / x[1]))) ** 2 +
@@ -101,7 +96,6 @@ def _g_3(x, data, eq_idx):
 def _g_3_derivative(x, data, eq_idx):
     """
     Derivative of g_3. Returns [d g_3 / d mu, d g_3 / d delta]
-    Notation: mu == x[0], delta == x[1]
     """
     res = np.zeros(len(x))
     a, b, c = data.systems_params[eq_idx]

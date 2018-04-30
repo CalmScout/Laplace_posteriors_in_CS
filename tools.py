@@ -47,3 +47,14 @@ def recompute_parameters(data):
         acc += np.dot(data.Phi[:, i], data.Phi[:, i]) * data.delta[i] * data.delta[i]
     new_beta = M / (np.linalg.norm(np.dot(data.Phi, data.mu) - data.y) + 4 * acc)
     return new_gamma, new_beta
+
+
+def check_measurement_approximation(data):
+    """
+    Returns l2 norm of difference between initial value 'y' and sampled vector 'w' from Laplace(mu[i], delta[i]).
+    Aquisition matrix 'Phi' is given.
+    """
+    w_sampled = np.zeros(N)
+    for i in range(N):
+        w_sampled[i] = np.random.laplace(data.mu[i], data.delta[i])
+    return np.linalg.norm(data.y - np.matmul(data.Phi, w_sampled))

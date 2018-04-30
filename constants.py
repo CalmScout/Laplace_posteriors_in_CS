@@ -35,3 +35,9 @@ DEFAULT_POSITIVE_DELTA = 0.5
 # learning rate for manual gradient descent implementation
 LEARNING_RATE = 0.001
 TOL_GDSC = 1e-4
+# visualization range of mu
+MIN_MU_VISUALIZATION = MIN_MU_INIT - abs(MIN_MU_INIT) * 0.3
+MAX_MU_VISUALIZATION = MAX_MU_INIT + abs(MAX_MU_INIT) * 0.3
+# visualization range of delta
+MIN_DELTA_VISUALIZATION = 0.03
+MAX_DELTA_VISUALIZATION = 2.0

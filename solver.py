@@ -22,7 +22,7 @@ def check_scalar(data, eq_idx):
     return np.linalg.norm(res)
 
 
-def compute(data, eq_idx):
+def compute_scipy(data, eq_idx):
     """
     Performs solving system of equations 'eq_idx'.
     """
@@ -31,3 +31,10 @@ def compute(data, eq_idx):
                1: "Powell"}
     res = opt.minimize(g, x, args=(data, eq_idx), jac=g_derivative, method=methods[1])
     data.mu[eq_idx], data.delta[eq_idx] = res.x
+
+
+def compute_manual_gdsc(data, eq_idx):
+    """
+    Performs solving system of equations 'eq_idx'
+    """
+    pass

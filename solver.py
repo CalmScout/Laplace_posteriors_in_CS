@@ -33,8 +33,22 @@ def compute_scipy(data, eq_idx):
     data.mu[eq_idx], data.delta[eq_idx] = res.x
 
 
-def compute_manual_gdsc(data, eq_idx):
+def compute_manual_gdsc(data, eq_idx, learning_rate=1e-2, tol=1e-11):
     """
-    Performs solving system of equations 'eq_idx'
+    Performs solving system of equations 'eq_idx' by gradient descent method.
     """
-    pass
+    x_init = np.array([data.mu[eq_idx], data.delta[eq_idx]])
+    curr_x = np.array(x_init)
+    previous_step_size = 1 / tol    # some big value
+    while previous_step_size > tol:
+        prev_x = curr_x
+        # print("curr_x.shape", curr_x.shape)
+        # print("g_derivative(prev_x, data, eq_idx).shape", g_derivative(prev_x, data, eq_idx).shape)
+        step = g_derivative(prev_x, data, eq_idx).reshape((2, 1))
+        curr_x = curr_x - learning_rate * step
+        # print("g_derivative:", type(g_derivative(prev_x, data, eq_idx)))
+        # print("learning_rate * g_derivative:", type(learning_rate * g_derivative(prev_x, data, eq_idx)))
+        # print("curr_x - learning_rate * g_derivative(prev_x, data, eq_idx)", type(curr_x - learning_rate * g_derivative(prev_x, data, eq_idx)))
+        # print("curr_x after change:", type(curr_x))
+        previous_step_size = np.abs(np.linalg.norm(curr_x - prev_x))
+    data.mu[eq_idx], data.delta[eq_idx] = curr_x

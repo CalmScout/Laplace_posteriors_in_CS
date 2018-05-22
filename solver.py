@@ -33,7 +33,7 @@ def compute_scipy(data, eq_idx):
     data.mu[eq_idx], data.delta[eq_idx] = res.x
 
 
-def compute_manual_gdsc(data, eq_idx, learning_rate=1e-2, tol=1e-11):
+def compute_manual_gdsc(data, eq_idx, learning_rate=1e-2, tol=1e-4):
     """
     Performs solving system of equations 'eq_idx' by gradient descent method.
     """
@@ -52,3 +52,4 @@ def compute_manual_gdsc(data, eq_idx, learning_rate=1e-2, tol=1e-11):
         # print("curr_x after change:", type(curr_x))
         previous_step_size = np.abs(np.linalg.norm(curr_x - prev_x))
     data.mu[eq_idx], data.delta[eq_idx] = curr_x
+    print("Solution:\n", curr_x)

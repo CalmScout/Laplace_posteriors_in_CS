@@ -9,18 +9,18 @@ from tools import check_measurement_approximation
 
 # generate data one time for current experiment
 data = data_generator()
-# remember generated vector of hidden parameters 'w'
-w_original = data.w
-# start iterative process for adjusting parameters mu, delta, gamma, beta
-elbo_lst = []
-for iter in range(10):
-    # solve systems with current parameters
-    for i in range(N):
-        compute_manual_gdsc(data, i)
-    # check all solutions and rise exceptions if necessary
-    check_solutions(data)
-    curr_elbo = elbo(data)
-    elbo_lst.append(curr_elbo)
+# # remember generated vector of hidden parameters 'w'
+# w_original = data.w
+# # start iterative process for adjusting parameters mu, delta, gamma, beta
+# elbo_lst = []
+# for iter in range(10):
+#     # solve systems with current parameters
+#     for i in range(N):
+#         compute_manual_gdsc(data, i)
+#     # check all solutions and rise exceptions if necessary
+#     check_solutions(data)
+#     curr_elbo = elbo(data)
+#     elbo_lst.append(curr_elbo)
 
 # # build graph of dependency of elbo from iteration number
 # print(elbo_lst)

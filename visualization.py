@@ -3,24 +3,32 @@ Module with functions for data visualization.
 """
 import numpy as np
 import matplotlib.pyplot as plt
+from pylab import meshgrid, cm, imshow, contour, clabel, colorbar, axis, title, show
 from system import g
 from constants import MIN_MU_VISUALIZATION, MAX_MU_VISUALIZATION
 from constants import MIN_DELTA_VISUALIZATION, MAX_DELTA_VISUALIZATION
 
 
-def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.01, number_of_contours = 10):
+def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.0003, number_of_contours=20):
     """
     Plot cost function generated from system of equations.
     """
-    mu_plot = np.arange(MIN_MU_VISUALIZATION, MAX_MU_VISUALIZATION, mu_plot_step)
+    mu_plot = np.arange(MIN_MU_VISUALIZATION, MAX_MU_VISUALIZATION + mu_plot_step, mu_plot_step)
     delta_plot = np.arange(MIN_DELTA_VISUALIZATION, MAX_DELTA_VISUALIZATION, delta_plot_step)
     MU, DELTA = np.meshgrid(mu_plot, delta_plot)
     vis_arr = np.zeros(MU.shape)
     for i in range(MU.shape[0]):
         for j in range(MU.shape[1]):
             vis_arr[i][j] = g((MU[i][j], DELTA[i][j]), data, eq_idx)
-    CS = plt.contour(MU, DELTA, vis_arr, number_of_contours)
-    plt.clabel(CS, inline=1, fontsize=10)
+    im = plt.imshow(vis_arr, cmap=cm.RdBu)  # drawing the function
+    print('vis_arr.shape:', vis_arr.shape)
+    cset = contour(vis_arr, number_of_contours, linewidths=2, cmap=cm.Set2)
+    clabel(cset, inline=True, fmt='%1.1f', fontsize=10)
+    colorbar(im)
     plt.xlabel(r'$\mu$')
     plt.ylabel(r'$\delta$')
-    plt.show()
+    print('Minimal value in plotting grid:', np.amin(vis_arr))
+    # plot point we are looking for - point of function minimum
+    delta_min_idx, mu_min_idx = divmod(vis_arr.argmin(), vis_arr.shape[1])
+    plt.plot(mu_min_idx, delta_min_idx, 'wo')
+    show()

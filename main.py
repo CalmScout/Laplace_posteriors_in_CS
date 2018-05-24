@@ -7,15 +7,13 @@ from solver import compute_manual_gdsc
 from tools import check_solutions, elbo
 import matplotlib.pyplot as plt
 from visualization import plot_cost_func
-from tools import check_measurement_approximation
 
 # generate data one time for current experiment
 data = data_generator()
 # remember generated vector of hidden parameters 'w'
-w_original = data.w
 # start iterative process for adjusting parameters mu, delta, gamma, beta
 elbo_lst = []
-for iter in range(10):
+for iter in range(3):
     print('Iteration:', iter)
     # solve systems with current parameters
     for i in range(N):
@@ -40,13 +38,13 @@ for iter in range(10):
     data.systems_params = system_generator(data)
 
 # build graph of dependency of elbo from iteration number
+plt.figure(1)
 print(elbo_lst)
 plt.plot(elbo_lst, 'o')
-# plt.show()
 plt.savefig('output/elbo.png', dpi=100)
 
-# print("Result:")
-# for i in range(N):
-#     print("{} --> Laplace({}, {})".format(w_original[i], data.mu[i], data.delta[i]))
-
-# print("Error between original and restored signals: {}".format(check_measurement_approximation(data)))
+# print comparison of original values and their approximations
+plt.figure(2)
+plt.plot(data.w, '^')
+plt.plot(data.mu, 'rx')
+plt.show()

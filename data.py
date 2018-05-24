@@ -11,7 +11,7 @@ class Data(object):
         self.beta = beta_init
         self.gamma = gamma_init
         self.Phi = None
-        self.w = None
+        self.w = None   # values we will approximate
         self.y = None
         self.mu = None
         self.delta = None

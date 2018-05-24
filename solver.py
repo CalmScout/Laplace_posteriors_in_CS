@@ -29,7 +29,7 @@ def compute_scipy(data, eq_idx):
     x = np.array([data.mu[eq_idx], data.delta[eq_idx]])
     methods = {0: "Nelder-Mead",
                1: "Powell"}
-    res = opt.minimize(g, x, args=(data, eq_idx), jac=g_derivative, method=methods[1])
+    res = opt.minimize(g, x, args=(data, eq_idx), jac=g_derivative, method=methods[0])
     data.mu[eq_idx], data.delta[eq_idx] = res.x
 
 

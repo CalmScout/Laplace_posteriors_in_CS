@@ -1,7 +1,7 @@
 """
 Additional tools.
 """
-from constants import N, M, TOL_THRESHOLD
+from constants import N, M, TOL_THRESHOLD_SYSTEM_SOLUTION
 from solver import check_scalar
 import numpy as np
 
@@ -13,8 +13,9 @@ def check_solutions(data):
     for i in range(N):
         if data.delta[i] <= 0:
             raise ValueError("delta have to be positive!")
-        if check_scalar(data, i) > TOL_THRESHOLD:
-            raise ValueError("Solution is not precise! Error: {}".format(check_scalar(data, i)))
+        if check_scalar(data, i) > TOL_THRESHOLD_SYSTEM_SOLUTION:
+            raise ValueError("Solution is not precise! Error: {}\nValues which raised error: \nmu {}\ndelta {}".format(
+                check_scalar(data, i), data.mu[i], data.delta[i]))
 
 
 def elbo(data):
@@ -47,14 +48,3 @@ def recompute_parameters(data):
         acc += np.dot(data.Phi[:, i], data.Phi[:, i]) * data.delta[i] * data.delta[i]
     new_beta = M / (np.linalg.norm(np.dot(data.Phi, data.mu) - data.y) + 4 * acc)
     return new_gamma, new_beta
-
-
-def check_measurement_approximation(data):
-    """
-    Returns l2 norm of difference between initial value 'y' and sampled vector 'w' from Laplace(mu[i], delta[i]).
-    Aquisition matrix 'Phi' is given.
-    """
-    w_sampled = np.zeros(N)
-    for i in range(N):
-        w_sampled[i] = np.random.laplace(data.mu[i], data.delta[i])
-    return np.linalg.norm(data.y - np.matmul(data.Phi, w_sampled))

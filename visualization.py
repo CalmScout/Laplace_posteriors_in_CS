@@ -9,9 +9,9 @@ from constants import MIN_MU_VISUALIZATION, MAX_MU_VISUALIZATION
 from constants import MIN_DELTA_VISUALIZATION, MAX_DELTA_VISUALIZATION
 
 
-def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.003, number_of_contours=20):
+def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.003, number_of_contours=20, mark_min_val=True):
     """
-    Plot cost function generated from system of equations.
+    Plot cost function generated from system of equations and marks minimum value in the grid.
     """
     mu_plot = np.arange(MIN_MU_VISUALIZATION, MAX_MU_VISUALIZATION + mu_plot_step, mu_plot_step)
     delta_plot = np.arange(MIN_DELTA_VISUALIZATION, MAX_DELTA_VISUALIZATION, delta_plot_step)
@@ -29,8 +29,9 @@ def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.003, number
     plt.ylabel(r'$\delta$')
     print('Minimal value in plotting grid:', np.amin(vis_arr))
     # plot point we are looking for - point of function minimum
-    delta_min_idx, mu_min_idx = divmod(vis_arr.argmin(), vis_arr.shape[1])
-    plt.plot(mu_min_idx, delta_min_idx, 'wo')
+    if mark_min_val:
+        delta_min_idx, mu_min_idx = divmod(vis_arr.argmin(), vis_arr.shape[1])
+        plt.plot(mu_min_idx, delta_min_idx, 'wo')
     show()
 
 

@@ -9,7 +9,7 @@ from constants import MIN_MU_VISUALIZATION, MAX_MU_VISUALIZATION
 from constants import MIN_DELTA_VISUALIZATION, MAX_DELTA_VISUALIZATION
 
 
-def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.0003, number_of_contours=20):
+def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.003, number_of_contours=20):
     """
     Plot cost function generated from system of equations.
     """
@@ -32,3 +32,10 @@ def plot_cost_func(data, eq_idx, mu_plot_step=0.1, delta_plot_step=0.0003, numbe
     delta_min_idx, mu_min_idx = divmod(vis_arr.argmin(), vis_arr.shape[1])
     plt.plot(mu_min_idx, delta_min_idx, 'wo')
     show()
+
+
+if __name__ == "__main__":
+    from data_generator import data_generator
+    data = data_generator()
+    eq_idx = 3
+    plot_cost_func(data, eq_idx)

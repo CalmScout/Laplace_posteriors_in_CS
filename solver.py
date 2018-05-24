@@ -40,16 +40,22 @@ def compute_manual_gdsc(data, eq_idx, learning_rate=1e-2, tol=1e-4):
     x_init = np.array([data.mu[eq_idx], data.delta[eq_idx]])
     curr_x = np.array(x_init)
     previous_step_size = 1 / tol    # some big value
+    hist = []   # list of approximations that can be used for plotting
     while previous_step_size > tol:
         prev_x = curr_x
-        # print("curr_x.shape", curr_x.shape)
-        # print("g_derivative(prev_x, data, eq_idx).shape", g_derivative(prev_x, data, eq_idx).shape)
+        hist.append(curr_x)
         step = g_derivative(prev_x, data, eq_idx).reshape((2, 1))
         curr_x = curr_x - learning_rate * step
-        # print("g_derivative:", type(g_derivative(prev_x, data, eq_idx)))
-        # print("learning_rate * g_derivative:", type(learning_rate * g_derivative(prev_x, data, eq_idx)))
-        # print("curr_x - learning_rate * g_derivative(prev_x, data, eq_idx)", type(curr_x - learning_rate * g_derivative(prev_x, data, eq_idx)))
-        # print("curr_x after change:", type(curr_x))
         previous_step_size = np.abs(np.linalg.norm(curr_x - prev_x))
     data.mu[eq_idx], data.delta[eq_idx] = curr_x
-    print("Solution:\n", curr_x)
+    return hist
+
+
+if __name__ == "__main__":
+    from data_generator import data_generator
+    data = data_generator()
+    print('Start!')
+    eq_idx = 3
+    compute_manual_gdsc(data, eq_idx)
+    print('End!')
+    print("Error:", check_scalar(data, eq_idx))

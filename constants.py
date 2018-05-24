@@ -16,9 +16,9 @@ PART_NONZERO = 0.05
 W_BOUND = 100
 # limits for generating of init values for 'delta'
 MIN_DELTA_INIT = 0.1
-MAX_DELTA_INIT = 0.5
+MAX_DELTA_INIT = 1.0
 # each system are solved starting from several initial points (grid of initial approximations)
-DELTA_GRID_DENSE = 4
+DELTA_GRID_DENSE = 6
 # limits for generating init values for 'mu' variable
 # boundaries of mu = [-50, 50] - otherwise machine lacks of precision
 MIN_MU_INIT = -30.0
@@ -40,4 +40,4 @@ MIN_MU_VISUALIZATION = MIN_MU_INIT - abs(MIN_MU_INIT) * 0.3
 MAX_MU_VISUALIZATION = MAX_MU_INIT + abs(MAX_MU_INIT) * 0.3
 # visualization range of delta
 MIN_DELTA_VISUALIZATION = 0.03
-MAX_DELTA_VISUALIZATION = 0.2
+MAX_DELTA_VISUALIZATION = 1.0

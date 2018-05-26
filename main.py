@@ -1,7 +1,7 @@
 import numpy as np
 from data_generator import data_generator
 from constants import N, M
-from solver import compute_scipy
+# from solver import compute_scipy
 from data_generator import system_generator
 from solver import compute_manual_gdsc
 from tools import check_solutions, elbo
@@ -17,7 +17,7 @@ for iter in range(3):
     print('Iteration:', iter)
     # solve systems with current parameters
     for i in range(N):
-        compute_scipy(data, i)
+        compute_manual_gdsc(data, i)
     # check all solutions and rise exceptions if necessary
     check_solutions(data)
     curr_elbo = elbo(data)

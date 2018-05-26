@@ -18,7 +18,7 @@ W_BOUND = 100
 MIN_DELTA_INIT = 0.1
 MAX_DELTA_INIT = 1.0
 # each system are solved starting from several initial points (grid of initial approximations)
-DELTA_GRID_DENSE = 6
+DELTA_GRID_DENSE = 10
 # limits for generating init values for 'mu' variable
 # boundaries of mu = [-50, 50] - otherwise machine lacks of precision
 MIN_MU_INIT = -30.0
@@ -34,7 +34,6 @@ COMPUTER_ZERO = 1e-13
 DEFAULT_POSITIVE_DELTA = 0.5
 # learning rate for manual gradient descent implementation
 LEARNING_RATE = 0.001
-TOL_GDSC = 1e-4
 # visualization range of mu
 MIN_MU_VISUALIZATION = MIN_MU_INIT - abs(MIN_MU_INIT) * 0.3
 MAX_MU_VISUALIZATION = MAX_MU_INIT + abs(MAX_MU_INIT) * 0.3

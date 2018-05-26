@@ -4,6 +4,8 @@ Module contains methods for solving systems.
 import numpy as np
 import scipy.optimize as opt
 from system import f, g, g_derivative
+from constants import MIN_DELTA_INIT, MAX_DELTA_INIT, DELTA_GRID_DENSE, MIN_MU_INIT,\
+    MAX_MU_INIT, MU_GRID_DENSE, TOL_THRESHOLD_SYSTEM_SOLUTION
 
 
 def check(data, eq_idx):
@@ -33,11 +35,11 @@ def compute_scipy(data, eq_idx):
     data.mu[eq_idx], data.delta[eq_idx] = res.x
 
 
-def compute_manual_gdsc(data, eq_idx, learning_rate=1e-2, tol=1e-4):
+def compute_manual_gdsc(data, eq_idx, learning_rate=1e-3, tol=TOL_THRESHOLD_SYSTEM_SOLUTION * 1e-3):
     """
     Performs solving system of equations 'eq_idx' by gradient descent method.
     """
-    x_init = np.array([data.mu[eq_idx], data.delta[eq_idx]])
+    x_init = _compute_init_approx_for_gdsc(data, eq_idx)
     curr_x = np.array(x_init)
     previous_step_size = 1 / tol    # some big value
     hist = []   # list of approximations that can be used for plotting
@@ -49,6 +51,25 @@ def compute_manual_gdsc(data, eq_idx, learning_rate=1e-2, tol=1e-4):
         previous_step_size = np.abs(np.linalg.norm(curr_x - prev_x))
     data.mu[eq_idx], data.delta[eq_idx] = curr_x
     return hist
+
+
+def _compute_init_approx_for_gdsc(data, eq_idx):
+    """
+    Computes initial value of gradient descent approximation algorithm.
+    """
+    mu = np.linspace(MIN_MU_INIT, MAX_MU_INIT, MU_GRID_DENSE)
+    delta = np.linspace(MIN_DELTA_INIT, MAX_DELTA_INIT, DELTA_GRID_DENSE)
+    curr_g_min = float("inf")
+    mu_init = None
+    delta_init = None
+    for mu_el in mu:
+        for delta_el in delta:
+            x = np.array([mu_el, delta_el])
+            if g(x, data, eq_idx) < curr_g_min:
+                mu_init = mu_el
+                delta_init = delta_el
+                curr_g_min = g([mu_el, delta_el], data, eq_idx)
+    return np.array([mu_init, delta_init]).reshape((2, 1))
 
 
 if __name__ == "__main__":
